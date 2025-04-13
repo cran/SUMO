@@ -2,7 +2,11 @@
 % Please edit documentation in R/divide_vector.R
 \name{divide_vector}
 \alias{divide_vector}
-\title{Divide features into randomized subsets based on factor Segments}
+\title{#' Global Variable
+#'
+#' A global variable used in multiple functions.
+#'
+#'}
 \usage{
 divide_vector(n_samples, num, min_size)
 }
@@ -11,16 +15,14 @@ divide_vector(n_samples, num, min_size)
 
 \item{num}{number of factors}
 
-\item{min_size}{Minimum length of any samples scores}
-}
-\value{
-A list of numeric vectors. Each vector contains 80\% of the features from one segment of the original feature set.
-The number of segments is determined by the number of factors provided (\code{num.factor}).
-\itemize{
-\item Each vector is a subset of the original feature set, selected randomly to contain 80\% of the elements from the segment.
-}
-Only used when the minimum segment size constraint is too large for the given feature length and number of segments.
+\item{min_size}{Minimum length of any samples scores
+
+#' ## ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ Updated IN USE (IN USE): Simulate the samples scores  (IN USE) ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~}
 }
 \description{
-Divide features into randomized subsets based on factor Segments
+#' Global Variable
+#'
+#' A global variable used in multiple functions.
+#'
+#'
 }

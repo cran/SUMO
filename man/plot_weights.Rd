@@ -2,46 +2,59 @@
 % Please edit documentation in R/plot_weights.R
 \name{plot_weights}
 \alias{plot_weights}
-\title{Visualizing the loading of the features}
+\title{Visualizing the raw loading/weights of the features}
 \usage{
 plot_weights(
-  sim_object = NULL,
+  sim_object,
   factor_num = 1,
   data = "omic.one",
-  type = "scatter"
+  type = "scatter",
+  show.legend = TRUE
 )
 }
 \arguments{
-\item{sim_object}{R object containing data to be plotted}
+\item{sim_object}{R object containing data to be plotted.}
 
-\item{factor_num}{Factor to be plotted.}
+\item{factor_num}{Integer or "all". Specifies which factor(s) to visualize.}
 
-\item{data}{Section of the integrated data to be plotted, omic.one or omic.two are the options}
+\item{data}{Character. Section of the data to visualize: "omic.one", "omic.two", or "integrated".}
 
-\item{type}{Type of plot. Scatter plot and histogram are the only allowed plots}
+\item{type}{Character. Type of plot: "scatter" or "histogram".}
+
+\item{show.legend}{Logical. Whether to show the legend in the plot. Default is TRUE.}
 }
 \value{
-A ggplot object.
-If \code{type} is "scatter", the function returns a scatter plot visualizing the loadings of features for the selected factor.
-If \code{type} is "histogram", the function returns a histogram displaying the distribution of the loadings for the selected factor.
-The plot visualizes either \code{omic.one} or \code{omic.two} data based on the user input in the \code{data} parameter.
-The ggplot object can be further modified or directly plotted.
+A ggplot object or a combined grid of plots.
 }
 \description{
-Visualizing the loading of the features
+Generates scatter or histogram plots of feature loadings (weights) from simulated multi-omics data.
+Supports plotting for omic.one, omic.two, or integrated views.
 }
 \examples{
-# Examples
 output_obj <- OmixCraftHD(
-  vector_features = c(2000,3000),
-  sigmas_vector=c(8,5),
-  n_samples=100,
-  n_factors=4,
-  num.factor='multiple',
-  advanced_dist='mixed'
-)
-plot_weights(sim_object = output_obj, factor_num = 1, data = 'omic.one', type = 'scatter')
-plot_weights(sim_object = output_obj, factor_num = 1, data = 'omic.one', type = 'histogram')
-plot_weights(sim_object = output_obj, factor_num = 1, data = 'omic.two', type = 'scatter')
-plot_weights(sim_object = output_obj, factor_num = 1, data = 'omic.two', type = 'histogram')
+  vector_features = c(4000, 3000),
+  n_samples = 100,
+  n_factors = 2,
+  signal.samples = NULL,
+  signal.features.one = NULL,
+  signal.features.two = NULL,
+  snr = 2.5,
+  num.factor = 'multiple',
+  advanced_dist = 'mixed'
+  )
+
+plot_weights(
+   sim_object = output_obj,
+   factor_num = 1,
+   data = 'omic.one',
+   type = 'scatter',
+   show.legend = FALSE
+   )
+
+plot_weights(
+  sim_object = output_obj,
+  factor_num = 2,
+  data = 'omic.two',
+  type = 'histogram'
+  )
 }

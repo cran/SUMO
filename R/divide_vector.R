@@ -1,17 +1,13 @@
-# A global variable used in multiple functions.
-#' @name divide_vector
-#' @title Divide features into randomized subsets based on factor Segments
+#' #' Global Variable
+#' #'
+#' #' A global variable used in multiple functions.
+#' #'
+#' #'
 #' @param n_samples number of samples
 #' @param num number of factors
 #' @param min_size Minimum length of any samples scores
-#' @return A list of numeric vectors. Each vector contains 80% of the features from one segment of the original feature set.
-#' The number of segments is determined by the number of factors provided (`num.factor`).
-#' \itemize{
-#'   \item Each vector is a subset of the original feature set, selected randomly to contain 80% of the elements from the segment.
-#' }
-#' Only used when the minimum segment size constraint is too large for the given feature length and number of segments.
 #'
-# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ Updated IN USE (IN USE): Simulate the samples scores  (IN USE) ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+#' #' ## ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ Updated IN USE (IN USE): Simulate the samples scores  (IN USE) ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 #' @export
 divide_vector <- function(n_samples, num, min_size) {
   if (num * min_size >= n_samples) {

@@ -1,15 +1,8 @@
 #' @name divide_features_one
 #' @title Dividing features to create vectors with signal in the first omic for single data
 #' @param n_features_one number of features of first omic
-#' @param num.factor number of factors (should be set to '1')
+#' @param num.factor number of factor = '1'
 #' @include divide_vector.R
-#'
-#' @return A list of numeric vectors. Each vector contains 80% of the features from one segment of the original feature set.
-#' The number of segments is determined by the number of factors provided (`num.factor`).
-#' \itemize{
-#'   \item Each vector is a subset of the original feature set, selected randomly to contain 80% of the elements from the segment.
-#' }
-#' If the minimum segment size constraint is too large for the given feature length and number of segments, the function retries using the `divide_vector()` function.
 #'
 #' @export
 divide_features_one <- function(n_features_one, num.factor) {

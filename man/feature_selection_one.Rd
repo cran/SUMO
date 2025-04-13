@@ -13,16 +13,6 @@ feature_selection_one(n_features_one, num.factor, no_factor)
 
 \item{no_factor}{number of factors}
 }
-\value{
-A list of numeric vectors.
-\itemize{
-\item The first vector contains a consecutive subset of the first \code{num_elements} from the original vector.
-\item The subsequent vectors are sub-vectors derived from remaining segments, each containing 40\% of the elements from the corresponding segment.
-\item If \code{num.factor == 'multiple'}, the segments are divided based on \code{no_factor}, and the function ensures the segments meet the size constraints.
-\item The function recursively retries segmentation if any segment size is smaller than the minimum constraint of 10 elements.
-}
-The function returns an error if the input parameters or constraints are invalid (e.g., \code{num.factor} is not "multiple" or \code{no_factor} is missing).
-}
 \description{
 Dividing features to create vectors with signal in the first omic
 }

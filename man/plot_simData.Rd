@@ -2,34 +2,32 @@
 % Please edit documentation in R/plot_simData.R
 \name{plot_simData}
 \alias{plot_simData}
-\title{Visualizing the simulated data using image map and 3D visualization}
+\title{Visualizing the simulated data using heatmap or 3D surface plot}
 \usage{
-plot_simData(sim_object, type = "heatmap")
+plot_simData(sim_object, data = "merged", type = "heatmap")
 }
 \arguments{
-\item{sim_object}{R object containing simulated data to be plotted}
+\item{sim_object}{R object containing simulated data as returned by \code{OmixCraftHD}.}
 
-\item{type}{type of the plot. Heatmap for image plot and 3D for persp 3D plot}
-}
-\value{
-The function generates and displays a plot based on the specified \code{type}.
-If \code{type} is "heatmap", the function displays a 2D heatmap of the simulated data.
-If \code{type} is "3D", the function creates a 3D surface plot of the simulated data.
-The function does not return any values but generates the requested plot as a side effect.
+\item{data}{Character. Specifies which data matrix to visualize. Options are "merged" (or "concatenated"), "omic.one", or "omic.two".}
+
+\item{type}{Character. Type of plot: either "heatmap" for a 2D image plot or "3D" for a 3D perspective surface plot.}
 }
 \description{
-Visualizing the simulated data using image map and 3D visualization
+Generates a visual representation of the simulated omics data either as a heatmap or a 3D surface plot. You can select which dataset to visualize: the merged/concatenated matrix, omic one, or omic two.
 }
 \examples{
-# Examples
 output_obj <- OmixCraftHD(
-  vector_features = c(2000,3000),
-  sigmas_vector=c(8,5),
+  vector_features = c(4000,3000),
   n_samples=100,
-  n_factors=5,
+  n_factors=2,
+  signal.samples = NULL,
+  signal.features.one = NULL,
+  signal.features.two = NULL,
+  snr = 2.5,
   num.factor='multiple',
-  advanced_dist='mixed'
-)
-plot_simData(sim_object = output_obj, type = "heatmap")
-plot_simData(sim_object = output_obj, type = "3D")
+  advanced_dist='mixed')
+
+plot_simData(sim_object = output_obj, data = "merged", type = "heatmap")
+plot_simData(sim_object = output_obj, data = "omic.one", type = "3D")
 }

@@ -1,26 +1,35 @@
 Package: SUMO
-Title: Generating Multi-Omics Datasets
-Version: 0.1.0
+Title: Generating Multi-Omics Datasets for Testing and Benchmarking
+Version: 0.2.0
 Authors@R: 
-    c(person("Bernard", "Isekah Osang'ir", email = "Bernard.Osangir@sckcen.be", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-5557-3602")),
-    person("Bernard", "Isekah Osang'ir", email = "bernard.osangir@uhasselt.be", role = "aut"))
-Description: Designed to generate multi-omics datasets that closely reflect biological complexity, the package allows for testing, validation, and benchmarking of multi-omics integrative methods. The simulated data includes one or multiple predefined signals (latent/unobserved factors), giving users complete control over the data-generated characteristics. Tini, Giulia, et al (2019) <doi:10.1093/bib/bbx167>.
+    c(
+      person("Bernard", "Isekah Osang'ir", email = "Bernard.Osangir@sckcen.be", role = c("aut", "cre"),
+             comment = c(ORCID = "0000-0002-5557-3602")),
+      person("Ziv", "Shkedy", role = "ctb"),
+      person("Surya", "Gupta", role = "ctb"),
+      person("Jürgen", "Claesen", role = "ctb")
+    )
+Description: Provides tools to simulate multi-omics datasets with predefined signal structures. The generated data can be used for testing, validating, and benchmarking integrative analysis methods such as factor models and clustering approaches. This version includes enhanced signal customization, visualization tools (scatter, histogram, 3D), MOFA-based analysis pipelines, PowerPoint export, and statistical profiling of datasets. Designed for both method development and teaching, SUMO supports real and synthetic data pipelines with interpretable outputs. Tini, Giulia, et al (2019) <doi:10.1093/bib/bbx167>.
 License: CC BY 4.0
 Encoding: UTF-8
-RoxygenNote: 7.3.2
-Suggests: testthat (>= 3.0.0)
+RoxygenNote: 7.3.1
+Suggests: testthat (>= 3.0.0), MOFAdata, MOFA2, rvg, fabia, tidyverse,
+        grid, basilisk
 Config/testthat/edition: 3
-Imports: ggplot2, gridExtra, rlang
+Imports: ggplot2, gridExtra, rlang, stats, graphics, utils, dplyr,
+        readr, readxl, stringr, data.table, magrittr, officer
 Collate: 'divide_vector.R' 'divide_features_two.R'
         'divide_features_one.R' 'feature_selection_two.R'
         'feature_selection_one.R' 'divide_samples.R' 'OmixCraftHD.R'
-        'SUMO.R' 'plot_factor.R' 'plot_simData.R' 'plot_weights.R'
+        'SUMO.R' 'compute_means_vars.R' 'demo_multiomics_analysis.R'
+        'globals.R' 'plot_factor.R' 'plot_simData.R' 'plot_weights.R'
 NeedsCompilation: no
-Packaged: 2024-10-20 13:58:44 UTC; Lenovo
+Packaged: 2025-04-13 09:32:52 UTC; bosangir
 Author: Bernard Isekah Osang'ir [aut, cre]
     (<https://orcid.org/0000-0002-5557-3602>),
-  Bernard Isekah Osang'ir [aut]
+  Ziv Shkedy [ctb],
+  Surya Gupta [ctb],
+  Jürgen Claesen [ctb]
 Maintainer: Bernard Isekah Osang'ir <Bernard.Osangir@sckcen.be>
 Repository: CRAN
-Date/Publication: 2024-10-22 13:10:01 UTC
+Date/Publication: 2025-04-13 16:00:19 UTC

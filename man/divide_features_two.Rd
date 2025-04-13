@@ -7,17 +7,9 @@
 divide_features_two(n_features_two, num.factor)
 }
 \arguments{
-\item{n_features_two}{number of features of first omic}
+\item{n_features_two}{number of features of second omic}
 
-\item{num.factor}{number of factors (should be set to '1')}
-}
-\value{
-A list of numeric vectors. Each vector contains 80\% of the features from one segment of the original feature set.
-The number of segments is determined by the number of factors provided (\code{num.factor}).
-\itemize{
-\item Each vector is a subset of the original feature set, selected randomly to contain 80\% of the elements from the segment.
-}
-If the minimum segment size constraint is too large for the given feature length and number of segments, the function retries using the \code{divide_vector()} function.
+\item{num.factor}{type of factors - single or multiple}
 }
 \description{
 Dividing features to create vectors with signal in the second omic for single data

@@ -13,13 +13,6 @@ divide_samples(n_samples, num, min_size)
 
 \item{min_size}{Minimum length of any samples scores}
 }
-\value{
-A list of numeric vectors.
-If \code{num == 1}, the list contains a single vector representing a random selection of between 10\% and 55\% of the elements from the full dataset.
-If \code{num > 1}, the list contains \code{num} vectors, each representing 75\% of the elements from one of the \code{num} segments of the dataset.
-The segmentation ensures that all segments are at least the size of \code{min_size}.
-If the segment sizes are too small, the function retries the segmentation process.
-}
 \description{
 A global variable used in multiple functions.
 }

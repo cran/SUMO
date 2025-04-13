@@ -2,69 +2,42 @@
 % Please edit documentation in R/OmixCraftHD.R
 \name{OmixCraftHD}
 \alias{OmixCraftHD}
-\title{Simulation of high-dimensional data with predefined single factor or multiple factors in multi-omics}
+\title{Simulation of omics with predefined single or multiple latent factors in multi-omics}
 \usage{
 OmixCraftHD(
   vector_features = c(2000, 2000),
   n_samples = 50,
-  sigmas_vector = c(3, 5),
   n_factors = 3,
+  signal.samples = NULL,
+  signal.features.one = NULL,
+  signal.features.two = NULL,
   num.factor = "multiple",
-  advanced_dist = NULL
+  snr = 1,
+  advanced_dist = NULL,
+  ...
 )
 }
 \arguments{
-\item{vector_features}{Vector of features assigned to the two simulated datasets respectively '1' first dataset, '2' second dataset}
+\item{vector_features}{A numeric vector of length two, specifying the number of features in the first and second omics datasets, respectively.}
 
-\item{n_samples}{The number of samples common between the two simulated datasets}
+\item{n_samples}{Integer. The number of samples shared between both omics datasets.}
 
-\item{sigmas_vector}{Vector for the noise variability for the two simulated datasets respectively,  '1' first dataset, '2' second dataset}
+\item{n_factors}{Integer. Number of latent factors to simulate.}
 
-\item{n_factors}{Number of predefined factors}
+\item{signal.samples}{Optional numeric vector of length two: the first element is the mean, and the second is the variance of the number of signal-carrying samples per factor. If NULL, signal assignment is inferred from \code{snr}.}
 
-\item{num.factor}{Category of factors to be simulated specified as 'single', or 'multiple'.}
+\item{signal.features.one}{Optional numeric vector of length two: the first element is the mean, and the second is the variance of the number of signal-carrying features per factor in the first omic.}
 
-\item{advanced_dist}{Applicable only when num.factor = 'multiple'. Contains six possible arguments, '', NULL, 'mixed', 'omic.one', or 'omic.two', 'exclusive'}
-}
-\value{
-A list containing:
-\itemize{
-\item \code{dataset_1}: A matrix or data frame representing the first simulated dataset with rows as samples and columns as features.
-\item \code{dataset_2}: A matrix or data frame representing the second simulated dataset with rows as samples and columns as features.
-\item \code{factors}: A matrix representing the predefined factors used in generating the datasets. If \code{num.factor} is 'single', this contains one set of factors. If \code{num.factor} is 'multiple', it contains multiple sets of factors.
-\item \code{noise}: A list containing the noise terms added to both datasets based on the \code{sigmas_vector}.
-\item \code{factor_assignment}: A vector indicating how factors are assigned to datasets, depending on the \code{num.factor} and \code{advanced_dist} settings.
-}
-The output provides simulated multi-omics datasets with predefined latent factors and noise, which can be used to model complex biological data structures.
+\item{signal.features.two}{Optional numeric vector of length two: the first element is the mean, and the second is the variance of the number of signal-carrying features per factor in the second omic.}
 
-A list containing:
-\itemize{
-\item \code{dataset_1}: A matrix or data frame representing the first simulated dataset with rows as samples and columns as features.
-\item \code{dataset_2}: A matrix or data frame representing the second simulated dataset with rows as samples and columns as features.
-\item \code{factors}: A matrix representing the predefined factors used in generating the datasets. If \code{num.factor} is 'single', this contains one set of factors. If \code{num.factor} is 'multiple', it contains multiple sets of factors.
-\item \code{noise}: A list containing the noise terms added to both datasets based on the \code{sigmas_vector}.
-\item \code{factor_assignment}: A vector indicating how factors are assigned to datasets, depending on the \code{num.factor} and \code{advanced_dist} settings.
-}
-The output provides simulated multi-omics datasets with predefined latent factors and noise, which can be used to model complex biological data structures.
+\item{num.factor}{Character string. Either 'single' or 'multiple'. Determines whether to simulate a single latent factor or multiple factors.}
+
+\item{snr}{Numeric. Signal-to-noise ratio used to estimate the background noise. The function uses this value to infer the proportion of signal versus noise in the simulated datasets.}
+
+\item{advanced_dist}{Character string. Specifies how latent factors are distributed when \code{num.factor = 'multiple'}. Options include: '', NULL, 'mixed', 'omic.one', 'omic.two', or 'exclusive'.}
+
+\item{...}{Additional arguments (not currently used).}
 }
 \description{
-Simulation of high-dimensional data with predefined single factor or multiple factors in multi-omics
-}
-\examples{
-# Examples
-set.seed(1234)
-output_obj <- OmixCraftHD(
-  vector_features = c(2000,3000),
-  sigmas_vector=c(8,5),
-  n_samples=100,
-  n_factors=5,
-  num.factor='multiple',
-  advanced_dist='mixed'
-)
-output_obj <- OmixCraftHD(
-  vector_features = c(5000,3000),
-  sigmas_vector=c(3,4),
-  n_samples=30, n_factors=1
-)
-
+Simulates two high-dimensional omics datasets with customizable latent factor structures. Users can control the number and type of factors (shared, unique, mixed), the signal-to-noise ratio, and the distribution of signal-carrying samples and features. The function is flexible for benchmarking multi-omics integration methods under various controlled scenarios.
 }

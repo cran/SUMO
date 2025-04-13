@@ -2,31 +2,36 @@
 % Please edit documentation in R/plot_factor.R
 \name{plot_factor}
 \alias{plot_factor}
-\title{Visualization of factor scores}
+\title{Visualization of factor scores  (ground truth)}
 \usage{
-plot_factor(sim_object = NULL, factor_num = NULL)
+plot_factor(
+  sim_object = NULL,
+  factor_num = NULL,
+  type = "scatter",
+  show.legend = TRUE
+)
 }
 \arguments{
-\item{sim_object}{R object containing data to be plotted}
+\item{sim_object}{R object containing simulated data output from OmixCraftHD}
 
-\item{factor_num}{Factor to be plotted.}
-}
-\value{
-A ggplot object representing the factor scores for the specified factor (or all factors) in \code{sim_object}.
-If \code{factor_num = 'all'}, a combined plot of all factors is returned. If a specific \code{factor_num} is provided, the plot for that factor is returned.
-The plot can be further customized or displayed using standard \code{ggplot2} functions.
+\item{factor_num}{Integer or "all". Which factor(s) to plot.}
+
+\item{type}{Character. Either "scatter" (default) or "histogram" for plot type.}
+
+\item{show.legend}{Logical. Whether to show legend in plots. Default is TRUE.}
 }
 \description{
-Visualization of factor scores
+Scatter or histogram plots of sample-level factor scores from simulated multi-omics data, using scores from list_alphas and list_gammas.
 }
 \examples{
-# Examples
 output_obj <- OmixCraftHD(
-  vector_features = c(2000,3000),
-  sigmas_vector=c(3,4),
-  n_samples=30,
-  n_factors=1
-)
+  vector_features = c(4000,3000),
+  n_samples = 100,
+  n_factors = 2,
+  snr = 2.5,
+  num.factor = 'multiple',
+  advanced_dist = 'mixed')
+
 plot_factor(sim_object = output_obj, factor_num = 1)
-plot_factor(sim_object = output_obj, factor_num = 'all')
+plot_factor(sim_object = output_obj, factor_num = 'all', type = 'histogram')
 }

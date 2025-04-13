@@ -1,17 +1,11 @@
+
 #' @name feature_selection_one
 #' @title Dividing features to create vectors with signal in the first omic
 #' @param n_features_one number of features of first omic
 #' @param num.factor type of factors - single or multiple
 #' @param no_factor number of factors
 #'
-#' @return A list of numeric vectors.
-#' \itemize{
-#'   \item The first vector contains a consecutive subset of the first `num_elements` from the original vector.
-#'   \item The subsequent vectors are sub-vectors derived from remaining segments, each containing 40% of the elements from the corresponding segment.
-#'   \item If `num.factor == 'multiple'`, the segments are divided based on `no_factor`, and the function ensures the segments meet the size constraints.
-#'   \item The function recursively retries segmentation if any segment size is smaller than the minimum constraint of 10 elements.
-#' }
-#' The function returns an error if the input parameters or constraints are invalid (e.g., `num.factor` is not "multiple" or `no_factor` is missing).
+#'
 #' @export
 feature_selection_one <- function(n_features_one, num.factor, no_factor) {
   # Ensure the vector has at least 10% elements

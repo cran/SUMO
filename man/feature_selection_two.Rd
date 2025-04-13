@@ -13,14 +13,6 @@ feature_selection_two(n_features_two, num.factor, no_factor)
 
 \item{no_factor}{number of factors}
 }
-\value{
-A list of numeric vectors.
-The first vector represents a random subset of between 10\% and 60\% of the elements from the original feature vector.
-The remaining vectors represent 40\% of the elements from each of the segments created from the rest of the feature vector.
-If the segment sizes are too small or there are overlapping elements across the final vectors, the function retries and returns a new list of vectors.
-Each vector is guaranteed to have no overlapping elements with the others.
-If the input parameters are invalid, the function throws an error.
-}
 \description{
 Dividing features to create vectors with signal in the second omic
 }
