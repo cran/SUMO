@@ -19,7 +19,8 @@ It provides tools for simulating complex multi-omics datasets, enabling research
 
 \strong{Main Functions:}
 \itemize{
-\item \code{OmixCraftHD()}: Simulates synthetic high-dimensional multi-omics datasets.
+\item \code{simulateMultiOmics()}: Simulates multiple (> two) high-dimensional multi-omics datasets.
+\item \code{simulate_twoOmicsData()}: Simulates two high-dimensional multi-omics datasets.
 \item \code{plot_simData()}: Visualizes generated data at different levels.
 \item \code{plot_factor()}: Displays factor scores across samples for signal inspection.
 \item \code{plot_weights()}: Visualizes feature loadings to assess signal versus noise.

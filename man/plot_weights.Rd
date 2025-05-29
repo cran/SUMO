@@ -31,7 +31,7 @@ Generates scatter or histogram plots of feature loadings (weights) from simulate
 Supports plotting for omic.one, omic.two, or integrated views.
 }
 \examples{
-output_obj <- OmixCraftHD(
+output_obj <- simulate_twoOmicsData(
   vector_features = c(4000, 3000),
   n_samples = 100,
   n_factors = 2,

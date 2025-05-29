@@ -12,7 +12,7 @@ plot_factor(
 )
 }
 \arguments{
-\item{sim_object}{R object containing simulated data output from OmixCraftHD}
+\item{sim_object}{R object containing simulated data output from \code{simulate_twoOmicsData} and \code{simulateMultiOmics}.}
 
 \item{factor_num}{Integer or "all". Which factor(s) to plot.}
 
@@ -24,7 +24,7 @@ plot_factor(
 Scatter or histogram plots of sample-level factor scores from simulated multi-omics data, using scores from list_alphas and list_gammas.
 }
 \examples{
-output_obj <- OmixCraftHD(
+output_obj <- simulate_twoOmicsData(
   vector_features = c(4000,3000),
   n_samples = 100,
   n_factors = 2,

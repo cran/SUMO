@@ -18,28 +18,30 @@ demo_multiomics_analysis(
 \item{verbose}{Logical. If \code{TRUE}, prints progress messages. Default is \code{TRUE}.}
 }
 \value{
-Invisibly returns the trained MOFA model object. Optionally saves visualizations and a PowerPoint report to disk.
+Invisibly returns the trained MOFA model object.
 }
 \description{
 Run a complete MOFA2-based analysis pipeline using either SUMO-generated or real-world CLL multi-omics data.
 This function includes preprocessing, MOFA model training, variance decomposition visualization, and optional PowerPoint report generation.
 }
 \details{
-The function checks for required packages such as MOFA2, MOFAdata, officer, basilisk, and others using \code{requireNamespace()}.
-All downstream analysis is conditionally executed based on package availability.
+PowerPoint generation is skipped if required packages (\code{officer}, \code{rvg}, and \verb{systemfonts >= 1.1.0}) are not available.
 }
 \examples{
 if (
   requireNamespace("MOFA2", quietly = TRUE) &&
   requireNamespace("MOFAdata", quietly = TRUE) &&
+  requireNamespace("systemfonts", quietly = TRUE) &&
+  utils::packageVersion("systemfonts") >= "1.1.0" &&
   identical(Sys.getenv("NOT_CRAN"), "true")
 ) {
   demo_multiomics_analysis("SUMO", export_pptx = FALSE)
   demo_multiomics_analysis("real_world", export_pptx = FALSE)
 }
+
 }
 \seealso{
-\code{\link[=OmixCraftHD]{OmixCraftHD()}}, \code{\link[=plot_factor]{plot_factor()}}, \code{\link[=plot_weights]{plot_weights()}}
+\code{\link[=simulate_twoOmicsData]{simulate_twoOmicsData()}}, \code{\link[=plot_factor]{plot_factor()}}, \code{\link[=plot_weights]{plot_weights()}}
 }
 \keyword{MOFA}
 \keyword{demo}

@@ -1,4 +1,4 @@
-#' @name OmixCraftHD
+#' @name simulate_twoOmicsData
 #' @title Simulation of omics with predefined single or multiple latent factors in multi-omics
 #' @description Simulates two high-dimensional omics datasets with customizable latent factor structures. Users can control the number and type of factors (shared, unique, mixed), the signal-to-noise ratio, and the distribution of signal-carrying samples and features. The function is flexible for benchmarking multi-omics integration methods under various controlled scenarios.
 #'
@@ -30,7 +30,7 @@
 #' #' @examples
 #' # Example 1: Simulate with default settings and 3 latent factors
 #' set.seed(1234)
-#' output1 <- OmixCraftHD(
+#' output1 <- simulate_twoOmicsData(
 #'   vector_features = c(2000, 2000),
 #'   n_samples = 50,
 #'   n_factors = 3
@@ -38,7 +38,7 @@
 
 #' # Example 2: Simulate 5 latent factors with user-defined signal regions
 #' set.seed(5678)
-#' output2 <- OmixCraftHD(
+#' output2 <- simulate_twoOmicsData(
 #'   vector_features = c(3000, 2500),
 #'   n_samples = 100,
 #'   n_factors = 5,
@@ -52,7 +52,7 @@
 
 #' # Example 3: Simulate single factor scenario using SNR-based default signal regions
 #' set.seed(91011)
-#' output3 <- OmixCraftHD(
+#' output3 <- simulate_twoOmicsData(
 #'   vector_features = c(4000, 3000),
 #'   n_samples = 60,
 #'   n_factors = 1,
@@ -64,7 +64,7 @@
 # @param type.factor Applicable only when num.factor = 'single'. type of factor needed to be simulated. Contains two type 'shared', 'unique'. 'shared' refers to latent factor present in both the dataset. 'unique' refers to latent factor present in one of the datasets.
 # @param signal_location Applicable only when num.factor = 'single' when type.factor = 'unique'. Contains three possible arguments empty (''), omic.one'  or 'omic.two' with 'omic.one' refers to factor only in the first data while 'omic.two' indicates the factor present only on the second data.
 
-OmixCraftHD <- function(vector_features = c(2000,2000),
+simulate_twoOmicsData <- function(vector_features = c(2000,2000),
                         n_samples = 50,
                         n_factors = 3,
                         signal.samples = NULL, #(signal.samples[1]*signal.feaures.one[1])/snr
@@ -2600,21 +2600,27 @@ OmixCraftHD <- function(vector_features = c(2000,2000),
   }
 }
 
-# Testing
-#set.seed(123)
-#output_sim <- OmixCraftHD(vector_features = c(4000,3000),
+# # Testing
+# set.seed(121)
+# output_sim <- simulate_twoOmicsData(vector_features = c(4000,3000),
 #                          n_samples=100,
 #                          n_factors=2,
 #                          signal.samples = NULL,
-#                          signal.features.one = NULL,
-#                          signal.features.two = NULL,
+#                          signal.features.one = c(5.0,1.0),
+#                          signal.features.two = c(4.5,1.0),
 #                          snr = 2.5,
 #                          num.factor='multiple',
 #                          advanced_dist='mixed')
-#output_sim$factor_xtics
-#plot_simData(output_sim, type = 'heatmap')
-#plot_factor(1)
-# @importFrom MOFA2 create_mofa run_mofa prepare_mofa
-# @importFrom MOFA2 get_default_model_options get_default_data_options
-# @importFrom MOFA2 get_default_training_options plot_factor_cor
-# @importFrom MOFA2 plot_variance_explained get_factors get_weights
+# output_sim$factor_xtics
+# plot_simData(output_sim, type = 'heatmap')
+# plot_factor(sim_object = output_sim, factor_num = 'all')
+# plot_weights(
+#   sim_object = output_sim,
+#   factor_num = 'all',
+#   data = 'omic.two',
+#   type = 'scatter'
+# )
+#@importFrom MOFA2 create_mofa run_mofa prepare_mofa
+#@importFrom MOFA2 get_default_model_options get_default_data_options
+#@importFrom MOFA2 get_default_training_options plot_factor_cor
+#@importFrom MOFA2 plot_variance_explained get_factors get_weights

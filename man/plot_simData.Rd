@@ -7,27 +7,37 @@
 plot_simData(sim_object, data = "merged", type = "heatmap")
 }
 \arguments{
-\item{sim_object}{R object containing simulated data as returned by \code{OmixCraftHD}.}
+\item{sim_object}{R object containing simulated data as returned by \code{simulate_twoOmicsData} and \code{simulateMultiOmics}.}
 
 \item{data}{Character. Specifies which data matrix to visualize. Options are "merged" (or "concatenated"), "omic.one", or "omic.two".}
 
 \item{type}{Character. Type of plot: either "heatmap" for a 2D image plot or "3D" for a 3D perspective surface plot.}
 }
 \description{
-Generates a visual representation of the simulated omics data either as a heatmap or a 3D surface plot. You can select which dataset to visualize: the merged/concatenated matrix, omic one, or omic two.
+Generates a visual representation of the simulated omics data either as a heatmap or a 3D surface plot.
+You can select which dataset to visualize: the merged/concatenated matrix, or any individual omic (e.g., "omic1", "omic2", etc.).
 }
 \examples{
-output_obj <- OmixCraftHD(
-  vector_features = c(4000,3000),
-  n_samples=100,
-  n_factors=2,
-  signal.samples = NULL,
-  signal.features.one = NULL,
-  signal.features.two = NULL,
-  snr = 2.5,
-  num.factor='multiple',
-  advanced_dist='mixed')
+output_obj <- simulateMultiOmics(
+  vector_features = c(3000, 2500, 2000),
+  n_samples = 100,
+  n_factors = 3,
+  snr = 3,
+  signal.samples = c(5, 1),
+  signal.features = list(
+    c(3, 0.3),
+    c(2.5, 0.25),
+    c(2, 0.2)
+  ),
+  factor_structure = "mixed",
+  num.factor = "multiple",
+  seed = 123
+)
 
+# Visualize merged heatmap
 plot_simData(sim_object = output_obj, data = "merged", type = "heatmap")
-plot_simData(sim_object = output_obj, data = "omic.one", type = "3D")
+
+# Visualize omic2 in 3D
+plot_simData(sim_object = output_obj, data = "omic2", type = "heatmap")
+
 }
