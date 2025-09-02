@@ -9,85 +9,106 @@ simulateMultiOmics(
   n_samples,
   n_factors,
   snr = 2,
-  signal.samples = c(5, 1),
+  signal.samples = c(5, 0.05),
   signal.features = NULL,
   factor_structure = "mixed",
   num.factor = "multiple",
-  seed = NULL
+  seed = NULL,
+  real_stats = FALSE,
+  real_means_vars = NULL
 )
 }
 \arguments{
-\item{vector_features}{Integer vector indicating number of features per omic (length k for k omics).}
+\item{vector_features}{Integer vector of number of features per omic (length k for k omics).}
 
-\item{n_samples}{Total number of samples across all omics.}
+\item{n_samples}{Total number of samples.}
 
 \item{n_factors}{Number of latent factors.}
 
-\item{snr}{Signal-to-noise ratio.}
+\item{snr}{Numeric. Signal-to-noise ratio.}
 
-\item{signal.samples}{Mean and SD for generating sample signal values (e.g., c(mean, sd)).}
+\item{signal.samples}{Length-2 vector (mean, sd) for sample-level signal values.}
 
-\item{signal.features}{List of vectors with mean and SD for features per omic (e.g., list(c(3,0.2), c(2.5,0.15))).}
+\item{signal.features}{List of length-k vectors (mean, sd) for each omic's feature-level signal.}
 
-\item{factor_structure}{Character. "shared", "exclusive", "mixed", "partial", or "custom" factor distribution}
+\item{factor_structure}{Character. One of: "shared", "unique", "mixed", "partial", "custom".}
 
-\item{num.factor}{Character. "multiple" (default) or "single"}
+\item{num.factor}{Character. Either "multiple" (default) or "single" factor mode.}
 
-\item{seed}{Optional. Set random seed for reproducibility.}
+\item{seed}{Integer seed for reproducibility (optional).}
+
+\item{real_stats}{Logical. If TRUE, noise variance and mean are derived from \code{real_means_vars}.}
+
+\item{real_means_vars}{Optional list of named vectors per omic: c(mean=..., var=...). Required if \code{real_stats = TRUE}.}
 }
 \value{
 A list containing:
 \itemize{
-\item \code{omic.list}: List of simulated omic datasets.
-\item \code{signal_annotation}: Signal sample indices per factor.
-\item \code{list_alphas}, \code{list_betas}: Latent factor loading vectors.
+\item \code{omics}: List of omic matrices.
+\item \code{concatenated_datasets}: Merged matrix of all omics.
+\item \code{list_alphas}: Sample-level latent factor values.
+\item \code{list_betas}: Feature-level loadings for each omic and factor.
+\item \code{signal_annotation}: List of feature and sample signal blocks.
+\item \code{factor_structure}: Input parameter.
+\item \code{factor_map}: Map of which omics each factor affects.
 }
 }
 \description{
-Simulate multiple omics (>2) datasets with non-overlapping sample and feature signal blocks.
+Simulate multiple omics (>=2) datasets with predefined sample-level latent factors and corresponding feature-level signal regions.
+Each omic has unique signal structure, noise profile, and feature space.
 }
 \details{
-This function generates synthetic omics data where each omic layer has its own feature space and noise characteristics. The sample signal blocks for each latent factor are non-overlapping and sequential with random gaps. Feature signal blocks are generated per omic with sequential non-overlapping segments.
+This function generates synthetic multi-omics datasets for benchmarking integrative methods. Each omic layer has its own feature distribution and noise characteristics.
+
+Key properties:
+\itemize{
+\item Sample signal blocks for each latent factor are non-overlapping and randomly spaced.
+\item Feature signal blocks per omic are also non-overlapping and assigned per factor.
+\item Noise can be modeled using either standard SNR scaling (default) or real data statistics (if \code{real_stats = TRUE}).
+\item Omics without assigned signal factors still receive background noise.
+}
 }
 \examples{
-sim_object1 <- simulateMultiOmics(
+# Example 1: Use standard SNR scaling (default)
+sim1 <- simulateMultiOmics(
   vector_features = c(3000, 2500, 2000),
   n_samples = 100,
   n_factors = 3,
   snr = 3,
   signal.samples = c(5, 1),
   signal.features = list(
-    c(3, 0.3),   # omic1 signal mean/sd
-    c(2.5, 0.25),# omic2 signal mean/sd
-    c(2, 0.2)    # omic3 signal mean/sd
+    c(3, 0.05),
+    c(2.5, 0.05),
+    c(2, 0.05)
   ),
   factor_structure = "mixed",
   num.factor = "multiple",
   seed = 123
 )
+plot_simData(sim_object = sim1, data = "merged", type = "heatmap")
 
-# View available elements
-names(sim_object1)
-
-# Visualize the simulated data
-plot_simData(sim_object = sim_object1, data = "merged", type = "heatmap")
-
-sim_object2 <- simulateMultiOmics(
-  vector_features = c(3000, 2500),
+# Example 2: Use real stats for noise modeling
+sim2 <- simulateMultiOmics(
+  vector_features = c(3000, 2500, 2000),
   n_samples = 100,
-  n_factors = 1,
-  snr = 0.5,
-  signal.samples = c(3, 1),
+  n_factors = 3,
+  snr = 3,
+  signal.samples = c(5, 1),
   signal.features = list(
-    c(3.5, 0.3),   # omic1 signal mean/sd
-    c(4, 0.2)    # omic3 signal mean/sd
+    c(3, 0.05),
+    c(2.5, 0.05),
+    c(2, 0.05)
   ),
-  factor_structure = "shared",
-  num.factor = "single",
-  seed = NULL
+  factor_structure = "mixed",
+  num.factor = "multiple",
+  real_stats = TRUE,
+  real_means_vars = list(
+    c(mean = 5, var = 1),
+    c(mean = 4.5, var = 0.8),
+    c(mean = 4.0, var = 0.6)
+  ),
+  seed = 123
 )
-
-# Visualize the simulated data
-plot_simData(sim_object = sim_object2, data = "merged", type = "heatmap")
+plot_simData(sim_object = sim2, data = "merged", type = "heatmap")
 
 }

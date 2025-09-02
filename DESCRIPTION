@@ -1,6 +1,6 @@
 Package: SUMO
 Title: Generating Multi-Omics Datasets for Testing and Benchmarking
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: 
     c(
       person("Bernard", "Isekah Osang'ir", email = "Bernard.Osangir@sckcen.be", role = c("aut", "cre"),
@@ -26,7 +26,7 @@ Collate: 'SUMO.R' 'compute_means_vars.R' 'demo_multiomics_analysis.R'
         'plot_simData.R' 'plot_weights.R' 'simulateMultiOmics.R'
         'simulate_twoOmicsData.R'
 NeedsCompilation: no
-Packaged: 2025-05-29 10:55:14 UTC; bosangir
+Packaged: 2025-09-02 07:10:08 UTC; bosangir
 Author: Bernard Isekah Osang'ir [aut, cre] (ORCID:
     <https://orcid.org/0000-0002-5557-3602>),
   Ziv Shkedy [ctb],
@@ -34,4 +34,4 @@ Author: Bernard Isekah Osang'ir [aut, cre] (ORCID:
   Jürgen Claesen [ctb]
 Maintainer: Bernard Isekah Osang'ir <Bernard.Osangir@sckcen.be>
 Repository: CRAN
-Date/Publication: 2025-05-29 11:10:02 UTC
+Date/Publication: 2025-09-02 07:20:08 UTC
