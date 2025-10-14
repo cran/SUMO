@@ -2,42 +2,76 @@
 % Please edit documentation in R/plot_simData.R
 \name{plot_simData}
 \alias{plot_simData}
-\title{Visualizing the simulated data using heatmap or 3D surface plot}
+\title{Visualize simulated multi-omics data as a heatmap}
 \usage{
-plot_simData(sim_object, data = "merged", type = "heatmap")
+plot_simData(
+  sim_object,
+  data = "merged",
+  type = "heatmap",
+  permute = FALSE,
+  permute_seed = NULL,
+  permute_samples = TRUE,
+  permute_features = TRUE
+)
 }
 \arguments{
-\item{sim_object}{R object containing simulated data as returned by \code{simulate_twoOmicsData} and \code{simulateMultiOmics}.}
+\item{sim_object}{List-like simulation result. Must contain
+\code{omics}, a named list of numeric matrices (samples in rows, features in columns).}
 
-\item{data}{Character. Specifies which data matrix to visualize. Options are "merged" (or "concatenated"), "omic.one", or "omic.two".}
+\item{data}{Character. Which matrix to visualize:
+\itemize{
+\item \code{"merged"} or \code{"concatenated"}: column-bind all omics (default: \code{"merged"}).
+\item a single omic name present in \code{names(sim_object$omics)}.
+}}
 
-\item{type}{Character. Type of plot: either "heatmap" for a 2D image plot or "3D" for a 3D perspective surface plot.}
+\item{type}{Character. Plot type. Currently only \code{"heatmap"} is supported.}
+
+\item{permute}{Logical. If \code{TRUE}, apply permutations according to
+\code{permute_samples} and \code{permute_features}. Default: \code{FALSE}.}
+
+\item{permute_seed}{Integer or \code{NULL}. If not \code{NULL}, sets RNG seed \strong{once}
+for reproducible permutations. Default: \code{NULL}.}
+
+\item{permute_samples}{Logical. If \code{TRUE} and \code{permute = TRUE}, permute sample
+order (rows). Default: \code{TRUE}.}
+
+\item{permute_features}{Logical. If \code{TRUE} and \code{permute = TRUE}, permute feature
+order (columns). Default: \code{TRUE}.}
+}
+\value{
+Invisibly returns the numeric matrix that was plotted (after any permutations).
 }
 \description{
-Generates a visual representation of the simulated omics data either as a heatmap or a 3D surface plot.
-You can select which dataset to visualize: the merged/concatenated matrix, or any individual omic (e.g., "omic1", "omic2", etc.).
+Quick visualization of simulated omics data as a base R heatmap.
+You can plot the merged/concatenated matrix across all omics or a single
+omic layer. Optionally permute sample and/or feature order (with a seed)
+to conceal block structure for sanity checks.
+}
+\details{
+The function expects \code{sim_object$omics} to be a \strong{named list} of numeric
+matrices with the \strong{same number of rows} (samples). For \code{data = "merged"}
+(or \code{"concatenated"}), all omic matrices are column-bound in their current
+order (subject to optional permutation) and plotted together.
 }
 \examples{
-output_obj <- simulateMultiOmics(
-  vector_features = c(3000, 2500, 2000),
+set.seed(123)
+sim_object <- simulate_twoOmicsData(
+  vector_features = c(4000, 3000),
   n_samples = 100,
-  n_factors = 3,
-  snr = 3,
-  signal.samples = c(5, 1),
-  signal.features = list(
-    c(3, 0.3),
-    c(2.5, 0.25),
-    c(2, 0.2)
-  ),
-  factor_structure = "mixed",
+  n_factors = 2,
+  snr = 2.5,
   num.factor = "multiple",
-  seed = 123
+  advanced_dist = "mixed"
 )
+output_obj = as_multiomics(sim_object)
 
-# Visualize merged heatmap
-plot_simData(sim_object = output_obj, data = "merged", type = "heatmap")
+# Merged (concatenated) heatmap
+plot_simData(output_obj, data = "merged", type = "heatmap")
 
-# Visualize omic2 in 3D
-plot_simData(sim_object = output_obj, data = "omic2", type = "heatmap")
+# Single omic with reproducible permutation
+plot_simData(output_obj, data = "omic2", permute = TRUE, permute_seed = 123)
 
+}
+\seealso{
+\code{simulateMultiOmics}
 }

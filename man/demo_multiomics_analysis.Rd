@@ -7,41 +7,100 @@
 demo_multiomics_analysis(
   data_type = c("SUMO", "real_world"),
   export_pptx = TRUE,
-  verbose = TRUE
+  verbose = TRUE,
+  use_pretrained = c("auto", "always", "never")
 )
 }
 \arguments{
-\item{data_type}{Character. Options are \code{"SUMO"} for synthetic data or \code{"real_world"} for the CLL dataset.}
+\item{data_type}{Character. "SUMO" (synthetic) or "real_world" (CLL).}
 
-\item{export_pptx}{Logical. If \code{TRUE}, saves a PowerPoint summary of the analysis. Default is \code{TRUE}.}
+\item{export_pptx}{Logical. If TRUE, write a PowerPoint report (multiple slides).
+Default TRUE.}
 
-\item{verbose}{Logical. If \code{TRUE}, prints progress messages. Default is \code{TRUE}.}
+\item{verbose}{Logical. If TRUE, print progress messages. Default TRUE.}
+
+\item{use_pretrained}{One of "auto", "always", "never".
+\itemize{
+\item "auto": train if a backend is available, otherwise load a pretrained model.
+\item "always": always load a pretrained model and skip training.
+\item "never": always train (requires a working Python backend for MOFA2).
+}}
 }
 \value{
-Invisibly returns the trained MOFA model object.
+Invisibly returns the trained (or loaded) MOFA model object.
 }
 \description{
-Run a complete MOFA2-based analysis pipeline using either SUMO-generated or real-world CLL multi-omics data.
-This function includes preprocessing, MOFA model training, variance decomposition visualization, and optional PowerPoint report generation.
+Run a complete MOFA2 workflow on either SUMO-generated data or the
+real-world CLL dataset. The function handles preprocessing and model training
+(preferring MOFA2's basilisk; falling back to a user reticulate env if configured),
+or loads a bundled pretrained model. It then creates summary visualizations and
+can export a multi-slide PowerPoint report.
 }
 \details{
-PowerPoint generation is skipped if required packages (\code{officer}, \code{rvg}, and \verb{systemfonts >= 1.1.0}) are not available.
+Backend selection. Training prefers MOFA2's basilisk backend when available;
+otherwise a reticulate/conda environment is used if configured via
+\code{sumo_setup_mofa()}. If neither is available and \code{use_pretrained = "auto"},
+the function loads a pretrained model shipped under \code{inst/extdata/}.
+
+PowerPoint contents (when \code{export_pptx = TRUE}):
+\itemize{
+\item Title slide (dataset label and generation date)
+\item Data overview: \code{plot_data_overview()}
+\item Factor correlation: \code{plot_factor_cor()}
+\item Variance explained:
+\itemize{
+\item by view x factor, and
+\item by group x factor (with totals) via \code{plot_variance_explained()}
+}
+\item Factor visualizations:
+\itemize{
+\item beeswarms for factors 1-3 via \code{plot_factor()}
+\item a customized F1 vs F2 plot
+\item scatter plots of factor combinations via \code{plot_factors()}
+}
+\item Feature weights:
+\itemize{
+\item \code{plot_weights()} and \code{plot_top_weights()} (first view, factor 1)
+}
+\item Input-data views:
+\itemize{
+\item heatmap via \code{plot_data_heatmap()} and
+\item feature-factor scatter via \code{plot_data_scatter()} (second view if present)
+}
+\item Non-linear embedding (if available): t-SNE via \code{run_tsne()} + \code{plot_dimred()}
+\item Table slides (heads/summaries):
+\itemize{
+\item sample metadata (head)
+\item total R^2 per view/group (head)
+\item R^2 per factor x view/group (head)
+\item dimensions summary (factors/weights/data)
+\item long-format heads from \code{get_factors()}, \code{get_weights()}, \code{get_data()}
+}
+}
+
+Plots are rasterized for portability when embedding in PPT (vector export is
+used when supported).
 }
 \examples{
 if (
+  interactive() &&
   requireNamespace("MOFA2", quietly = TRUE) &&
-  requireNamespace("MOFAdata", quietly = TRUE) &&
   requireNamespace("systemfonts", quietly = TRUE) &&
   utils::packageVersion("systemfonts") >= "1.1.0" &&
   identical(Sys.getenv("NOT_CRAN"), "true")
 ) {
-  demo_multiomics_analysis("SUMO", export_pptx = FALSE)
-  demo_multiomics_analysis("real_world", export_pptx = FALSE)
+  # Use pretrained models (no Python needed):
+  demo_multiomics_analysis("SUMO",       export_pptx = TRUE, use_pretrained = "always")
+  demo_multiomics_analysis("real_world", export_pptx = TRUE, use_pretrained = "always")
+
+  # To train (when basilisk or a reticulate env is available):
+  # demo_multiomics_analysis("real_world", export_pptx = TRUE, use_pretrained = "never")
 }
 
 }
 \seealso{
-\code{\link[=simulate_twoOmicsData]{simulate_twoOmicsData()}}, \code{\link[=plot_factor]{plot_factor()}}, \code{\link[=plot_weights]{plot_weights()}}
+\code{\link[=simulate_twoOmicsData]{simulate_twoOmicsData()}}, \code{\link[=plot_factor]{plot_factor()}}, \code{\link[=plot_weights]{plot_weights()}},
+\code{\link[=sumo_setup_mofa]{sumo_setup_mofa()}}, \code{\link[=sumo_mofa_backend]{sumo_mofa_backend()}}, \code{\link[=sumo_load_pretrained_mofa]{sumo_load_pretrained_mofa()}}
 }
 \keyword{MOFA}
 \keyword{demo}
